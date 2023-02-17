@@ -108,6 +108,9 @@ class App extends React.Component {
         id={message.key}
         key={message.key}
         comment={message.val}
+        commentImage={this.state.images.filter(
+          (image) => image.key === message.key
+        )}
       ></Comment>
     ));
     return (
