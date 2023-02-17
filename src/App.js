@@ -2,10 +2,17 @@ import React from "react";
 import {
   onChildChanged,
   onChildAdded,
+  onChildRemoved,
   push,
   ref,
   set,
 } from "firebase/database";
+import {
+  getStorage,
+  ref as sRef,
+  getDownloadURL,
+  uploadBytes,
+} from "firebase/storage";
 import { database } from "./firebase";
 import "./App.css";
 import Piano from "./Piano";
@@ -15,6 +22,8 @@ import PianoControls from "./PianoControls";
 import Comment from "./Comment";
 // Save the Firebase message folder name as a constant to avoid bugs due to misspelling
 const DB_MESSAGES_KEY = "messages";
+const DB_IMAGE_URL_KEY = "imageUrl";
+const storage = getStorage();
 
 class App extends React.Component {
   constructor(props) {
@@ -24,6 +33,7 @@ class App extends React.Component {
     this.state = {
       messages: [],
       inputVal: "",
+      inputFile: "",
     };
   }
 
@@ -46,23 +56,44 @@ class App extends React.Component {
         messages: [...state.messages, { key: data.key, val: data.val() }],
       }));
     });
+    onChildRemoved(messagesRef, (data) => {
+      // Add the subsequent child to local component state, initialising a new array to trigger re-render
+      this.setState((state) => ({
+        // Store message key so we can use it as a key in our list items when rendering messages
+        messages: [...state.messages, { key: data.key, val: data.val() }],
+      }));
+    });
   }
   changeHandler = (e) => {
     this.setState({ inputVal: e.target.value });
   };
+  fileHandler = (e) => {
+    this.setState({ inputFile: e.target.files[0] });
+  };
 
   // Note use of array fields syntax to avoid having to manually bind this method to the class
-  writeData = () => {
+  writeData = (e) => {
+    e.preventDefault();
     const messageListRef = ref(database, DB_MESSAGES_KEY);
+
+    const imageStorageRef = sRef(
+      storage,
+      this.state.inputFile.name.split(".")[0]
+    );
     const newMessageRef = push(messageListRef);
     set(newMessageRef, this.state.inputVal);
+    uploadBytes(imageStorageRef, this.state.inputFile).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        set(ref(database, DB_IMAGE_URL_KEY, newMessageRef.key), url);
+      });
+    });
   };
   // clicked = () => {
   //   console.log(this.tileRef.current.dataset.key);
   // };
   render() {
     // Convert messages in state to message JSX elements to render
-
+    console.log("hi.png".split("."));
     let messageListItems = this.state.messages.map((message) => (
       <Comment
         id={message.key}
@@ -96,8 +127,7 @@ class App extends React.Component {
                 <input
                   id="image"
                   type="file"
-                  value={this.state.image}
-                  onChange={this.changeHandler}
+                  onChange={this.fileHandler}
                 ></input>
               </div>
               <button className={`${classes.btn}`} onClick={this.writeData}>
