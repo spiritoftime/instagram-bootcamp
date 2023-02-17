@@ -6,7 +6,7 @@ class Piano extends React.Component {
   }
   render() {
     return (
-      <div className={`flex ${classes.piano} small-gap`}>
+      <div className={`flex  small-gap`}>
         <div
           className={`${classes["white-piano-tile"]} ${classes.tile}    
       `}

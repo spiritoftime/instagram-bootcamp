@@ -18,7 +18,6 @@ class App extends React.Component {
       messages: [],
       inputVal: "",
     };
-    this.tileRef = React.createRef();
   }
 
   componentDidMount() {
@@ -39,7 +38,6 @@ class App extends React.Component {
 
   // Note use of array fields syntax to avoid having to manually bind this method to the class
   writeData = () => {
-    console.log("running");
     const messageListRef = ref(database, DB_MESSAGES_KEY);
     const newMessageRef = push(messageListRef);
     set(newMessageRef, this.state.inputVal);
@@ -56,18 +54,27 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div className={classes["piano-grid"]}>
+          <div className={`${classes["piano-grid"]} center`}>
             {/* pianocontrols */}
             <PianoControls />
             {/* piano */}
+
             <Piano />
           </div>
           {/* TODO: Add input field and add text input as messages in Firebase */}
-          <input
-            value={this.state.inputVal}
-            onChange={this.changeHandler}
-          ></input>
-          <button onClick={this.writeData}>Send</button>
+          <div className={`${classes.comment_input_section} mid-gap`}>
+            <label htmlFor="comment">Write a comment ➡</label>
+            <div className={`${classes.comment_input} flex small-gap `}>
+              <input
+                id="comment"
+                value={this.state.inputVal}
+                onChange={this.changeHandler}
+              ></input>
+              <button className={`${classes.btn}`} onClick={this.writeData}>
+                Send
+              </button>
+            </div>
+          </div>
           <ol>{messageListItems}</ol>
         </header>
       </div>
