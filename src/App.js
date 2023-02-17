@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  onChildChanged,
   onChildAdded,
   onChildRemoved,
   push,
   ref,
   set,
+  update,
 } from "firebase/database";
 import {
   getStorage,
@@ -34,12 +34,14 @@ class App extends React.Component {
       messages: [],
       inputVal: "",
       inputFile: "",
+      images: [],
     };
   }
 
   componentDidMount() {
     keyListener();
     const messagesRef = ref(database, DB_MESSAGES_KEY);
+    const imagesRef = ref(database, DB_IMAGE_URL_KEY);
     // onChildAdded will return data for every child at the reference and every subsequent new child
     // onChildAdded triggers at the start
     onChildAdded(messagesRef, (data) => {
@@ -54,6 +56,20 @@ class App extends React.Component {
       this.setState((state) => ({
         // Store message key so we can use it as a key in our list items when rendering messages
         messages: state.messages.filter((message) => message.key !== data.key),
+      }));
+    });
+    onChildAdded(imagesRef, (data) => {
+      // Add the subsequent child to local component state, initialising a new array to trigger re-render
+      this.setState((state) => ({
+        // Store message key so we can use it as a key in our list items when rendering messages
+        images: [...state.images, { key: data.key, val: data.val() }],
+      }));
+    });
+    // onChildRemoved returns the data of the node that was removed
+    onChildRemoved(imagesRef, (data) => {
+      this.setState((state) => ({
+        // Store message key so we can use it as a key in our list items when rendering messages
+        images: state.images.filter((image) => image.key !== data.key),
       }));
     });
   }
@@ -74,14 +90,10 @@ class App extends React.Component {
       this.state.inputFile.name.split(".")[0]
     );
     const newMessageRef = push(messageListRef);
-    const imagePushDatabase = ref(database);
-    const pushed = push(imagePushDatabase);
-    // console.log(pushed.key);
-    // console.log(pushed === imageDatabaseRefKey, pushed, imageDatabaseRefKey);
     set(newMessageRef, this.state.inputVal);
     uploadBytes(imageStorageRef, this.state.inputFile).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        set(ref(database, DB_IMAGE_URL_KEY + pushed.key), url);
+        set(ref(database, DB_IMAGE_URL_KEY + newMessageRef.key), url);
       });
     });
   };

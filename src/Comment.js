@@ -5,11 +5,18 @@ import like from "./images/like.png";
 import { database } from "./firebase";
 import del from "./images/delete.png";
 import { remove, ref } from "firebase/database";
+import { getStorage, ref as sRef, deleteObject } from "firebase/storage";
 const DB_MESSAGES_KEY = "messages/";
+const DB_IMAGE_URL_KEY = "imageUrl/";
+const storage = getStorage();
 class Comment extends React.Component {
   deleteComment = () => {
     const commentRef = ref(database, DB_MESSAGES_KEY + this.props.id);
+    const imageRef = ref(database, DB_IMAGE_URL_KEY + this.props.id);
+    // delete image from storage too!
+    // const desertRef = sRef(storage, "images/desert.jpg");
     remove(commentRef);
+    remove(imageRef);
   };
   render() {
     return (
