@@ -1,0 +1,12 @@
+.comment_modal {
+  background-color: #e9ecef;
+  padding: 15px 30px;
+  color: black;
+  width: 400px;
+  border-radius: 5px;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}

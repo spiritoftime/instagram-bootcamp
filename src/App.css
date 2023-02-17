@@ -36,3 +36,6 @@
 .justify {
   justify-content: center;
 }
+.flex-col {
+  flex-direction: column;
+}

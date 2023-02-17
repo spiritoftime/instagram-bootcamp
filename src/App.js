@@ -12,6 +12,7 @@ import Piano from "./Piano";
 import keyListener from "./helper-functions/keyListener";
 import classes from "./app.module.css";
 import PianoControls from "./PianoControls";
+import Comment from "./Comment";
 // Save the Firebase message folder name as a constant to avoid bugs due to misspelling
 const DB_MESSAGES_KEY = "messages";
 
@@ -38,6 +39,13 @@ class App extends React.Component {
         messages: [...state.messages, { key: data.key, val: data.val() }],
       }));
     });
+    onChildChanged(messagesRef, (data) => {
+      // Add the subsequent child to local component state, initialising a new array to trigger re-render
+      this.setState((state) => ({
+        // Store message key so we can use it as a key in our list items when rendering messages
+        messages: [...state.messages, { key: data.key, val: data.val() }],
+      }));
+    });
   }
   changeHandler = (e) => {
     this.setState({ inputVal: e.target.value });
@@ -56,7 +64,11 @@ class App extends React.Component {
     // Convert messages in state to message JSX elements to render
 
     let messageListItems = this.state.messages.map((message) => (
-      <li key={message.key}>{message.val}</li>
+      <Comment
+        id={message.key}
+        key={message.key}
+        comment={message.val}
+      ></Comment>
     ));
     return (
       <div className="App">
@@ -80,7 +92,11 @@ class App extends React.Component {
               </button>
             </div>
           </div>
-          <ol>{messageListItems}</ol>
+          <div>
+            <ol className={"flex flex-col mid-gap justify align"}>
+              {messageListItems}
+            </ol>
+          </div>
         </header>
       </div>
     );
