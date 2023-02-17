@@ -1,0 +1,38 @@
+.piano {
+  width: 600px;
+}
+.white-piano-tile {
+  width: 10%;
+  position: relative;
+  height: 200px;
+  /* position: ; */
+  border-radius: 5px;
+  background-color: white;
+}
+.black-piano-tile {
+  background: linear-gradient(#333, #000);
+  width: 6.6%;
+  border-radius: 0 0 5px 5px;
+  position: relative;
+  height: 120px;
+  z-index: 2;
+  margin: 0px -4% 0;
+}
+.unpaired-tile {
+  margin-right: -4px;
+}
+.tile-key {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.tile.black-piano-tile.active {
+  box-shadow: inset -5px -2px 10px rgba(255, 255, 255, 0.1);
+  background: linear-gradient(to bottom, #000, #434343);
+}
+.tile.white-piano-tile.active {
+  box-shadow: inset -5px 5px 20px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+}
+

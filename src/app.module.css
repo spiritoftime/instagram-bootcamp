@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* utility classes */
+
+.piano-grid {
+  display: grid;
+  color: #868e96;
+  background-color: black;
+  border-radius: 15px;
+  padding: 12px;
+  row-gap: 20px;
+}
+
+/* piano */

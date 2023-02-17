@@ -4,14 +4,14 @@ import { getDatabase } from "firebase/database";
 
 // TODO: Replace with your app's Firebase project configuration
 const firebaseConfig = {
-  apiKey: "API_KEY",
-  authDomain: "PROJECT_ID.firebaseapp.com",
-  // The value of `databaseURL` depends on the location of the database
-  databaseURL: "https://DATABASE_NAME.REGION.firebasedatabase.app",
-  projectId: "PROJECT_ID",
-  storageBucket: "PROJECT_ID.appspot.com",
-  messagingSenderId: "SENDER_ID",
-  appId: "APP_ID",
+  apiKey: "AIzaSyAkAp0bD8wbGvkgRAdwRSkIGWtbXIs-aF0",
+  authDomain: "liangyi-rocket.firebaseapp.com",
+  databaseURL:
+    "https://liangyi-rocket-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "liangyi-rocket",
+  storageBucket: "liangyi-rocket.appspot.com",
+  messagingSenderId: "504261061112",
+  appId: "1:504261061112:web:d2c250e0576a5602478e0d",
 };
 
 // Initialize Firebase
