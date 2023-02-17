@@ -5,10 +5,10 @@ import like from "./images/like.png";
 import { database } from "./firebase";
 import del from "./images/delete.png";
 import { remove, ref } from "firebase/database";
-const DB_MESSAGES_KEY = "messages";
+const DB_MESSAGES_KEY = "messages/";
 class Comment extends React.Component {
   deleteComment = () => {
-    const commentRef = ref(database, DB_MESSAGES_KEY, this.props.id);
+    const commentRef = ref(database, DB_MESSAGES_KEY + this.props.id);
     remove(commentRef);
   };
   render() {
