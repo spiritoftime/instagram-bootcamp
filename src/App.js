@@ -79,20 +79,31 @@ class App extends React.Component {
             <Piano />
           </div>
           {/* TODO: Add input field and add text input as messages in Firebase */}
-          <div className={`${classes.comment_input_section} mid-gap`}>
-            <label htmlFor="comment">Write a comment ➡</label>
-            <div className={`${classes.comment_input} flex small-gap `}>
-              <input
-                id="comment"
-                value={this.state.inputVal}
-                onChange={this.changeHandler}
-              ></input>
+          <div className={`${classes.comment_section} flex mid-gap`}>
+            <form
+              className={`${classes.comment_input} flex flex-col small-gap `}
+            >
+              <div className="flex align small-gap">
+                <label htmlFor="comment">Write a comment ➡</label>
+                <input
+                  id="comment"
+                  value={this.state.inputVal}
+                  onChange={this.changeHandler}
+                ></input>
+              </div>
+              <div className="flex align small-gap">
+                <label htmlFor="image">Upload a image ➡</label>
+                <input
+                  id="image"
+                  type="file"
+                  value={this.state.image}
+                  onChange={this.changeHandler}
+                ></input>
+              </div>
               <button className={`${classes.btn}`} onClick={this.writeData}>
                 Send
               </button>
-            </div>
-          </div>
-          <div>
+            </form>
             <ol className={"flex flex-col mid-gap justify align"}>
               {messageListItems}
             </ol>

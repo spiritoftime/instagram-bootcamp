@@ -14,8 +14,7 @@
   padding: 12px;
   row-gap: 20px;
 }
-.comment_input_section {
-  display: flex;
+.comment_section {
   padding: 0 15px;
   color: black;
   font-weight: 700;
