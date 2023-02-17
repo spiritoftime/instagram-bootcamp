@@ -1,5 +1,11 @@
 import React from "react";
-import { onChildAdded, push, ref, set } from "firebase/database";
+import {
+  onChildChanged,
+  onChildAdded,
+  push,
+  ref,
+  set,
+} from "firebase/database";
 import { database } from "./firebase";
 import "./App.css";
 import Piano from "./Piano";
@@ -24,6 +30,7 @@ class App extends React.Component {
     keyListener();
     const messagesRef = ref(database, DB_MESSAGES_KEY);
     // onChildAdded will return data for every child at the reference and every subsequent new child
+    // onChildAdded triggers at the start
     onChildAdded(messagesRef, (data) => {
       // Add the subsequent child to local component state, initialising a new array to trigger re-render
       this.setState((state) => ({
@@ -42,9 +49,9 @@ class App extends React.Component {
     const newMessageRef = push(messageListRef);
     set(newMessageRef, this.state.inputVal);
   };
-  clicked = () => {
-    console.log(this.tileRef.current.dataset.key);
-  };
+  // clicked = () => {
+  //   console.log(this.tileRef.current.dataset.key);
+  // };
   render() {
     // Convert messages in state to message JSX elements to render
 
@@ -55,9 +62,7 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <div className={`${classes["piano-grid"]} center`}>
-            {/* pianocontrols */}
             <PianoControls />
-            {/* piano */}
 
             <Piano />
           </div>

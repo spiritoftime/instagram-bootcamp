@@ -1,4 +1,4 @@
-import classes from "../app.module.css";
+import classes from "../piano.module.css";
 const allKeys = [
   "a",
   "w",
@@ -40,10 +40,12 @@ const pressedKey = (e) => {
 
 const keyListener = (e) => {
   document.addEventListener("keydown", pressedKey);
-  const pianoTiles = document.querySelectorAll(".tile");
+  const pianoTiles = document.querySelectorAll(`.${classes.tile}`);
 
   pianoTiles.forEach((pianoTile) => {
-    pianoTile.addEventListener("click", () => playTune(pianoTile.dataset.key));
+    pianoTile.addEventListener("click", (e) => {
+      playTune(pianoTile.dataset.key);
+    });
   });
 };
 export default keyListener;

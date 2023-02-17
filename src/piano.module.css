@@ -5,6 +5,7 @@
   /* position: ; */
   border-radius: 5px;
   background-color: white;
+  cursor: pointer;
 }
 .black-piano-tile {
   background: linear-gradient(#333, #000);
@@ -14,15 +15,18 @@
   height: 120px;
   z-index: 2;
   margin: 0px -4% 0;
+  cursor: pointer;
 }
 .unpaired-tile {
   margin-right: -4px;
+  cursor: pointer;
 }
 .tile-key {
   position: absolute;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
+  cursor: pointer;
 }
 .tile.black-piano-tile.active {
   box-shadow: inset -5px -2px 10px rgba(255, 255, 255, 0.1);
@@ -31,4 +35,6 @@
 .tile.white-piano-tile.active {
   box-shadow: inset -5px 5px 20px rgba(0, 0, 0, 0.2);
   background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+}
+.tile {
 }
